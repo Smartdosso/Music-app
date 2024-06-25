@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="Souleymane Dosso">
+    <meta name="description" content="Music-App">
+    <link rel="stylesheet" href="style.css">
+    <title>Music App</title>
+</head>
+<body>
+    <div class="player">
+        <div class="details">
+            <h3 id="song-title">Sailematu</h3>
+            <p id="artist">Nuchie</p>
+        </div>
+        <div class="controls">
+            <button id="prev" onclick="prevSong()">&#9664;&#9664;</button>
+            <button id="play" onclick="playPauseSong()">&#9654;</button>
+            <button id="next" onclick="nextSong()">&#9654;&#9654;</button>
+            
+        </div>
+        <div class="progress-container">
+            <span id="current-time">00:00</span>
+            <input type="range" id="progress" value="0" onchange="seekTo()">
+            <span id="duration">00:00</span>
+        </div>
+        <div class="volume-container">
+            <input type="range" id="volume" value="100" onchange="setVolume()">
+            <button id="repeatSong" onclick="repeatSong()">&#x1F501;
+            </button>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>

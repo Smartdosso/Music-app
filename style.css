@@ -1,0 +1,53 @@
+body {
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f31818;
+    margin: 0;
+}
+
+.player {
+    background-color: #12eb2f;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    padding: 20px;
+    width: 300px;
+    text-align: center;
+}
+
+.details {
+    margin-bottom: 10px;
+}
+
+.controls button {
+    background: none;
+    border: none;
+    font-size: 30px;
+    cursor: pointer;
+    margin: 10px 10px;
+}
+
+.progress-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 10px;
+}
+
+.progress-container input {
+    width: 100%;
+    margin: 0 5px;
+}
+
+.volume-container {
+    margin-top: 10px;
+}
+
+#repeatSong{
+    font-size: 26px;
+    background-color: transparent;
+    border: 0;
+    cursor: pointer;
+}
