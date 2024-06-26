@@ -3,39 +3,33 @@ window.onload = () => {
         {
             title: "Sailematu",
             artist: "Nuchie Meek",
-            src: "music/Nuchie_Meek_-_Sailematu_(VISUALIZER)(128k).mp3",
-            audio: new Audio("music/Nuchie_Meek_-_Sailematu_(VISUALIZER)(128k).mp3")
+            src: "music/Nuchie_Meek_-_Sailematu_(VISUALIZER)(128k).mp3"
         },
         {
             title: "Feel",
             artist: "Davido",
-            src: "music/Davido - FEEL (Official Audio)(MP3_320K).mp3",
-            audio: new Audio("music/Davido - FEEL (Official Audio)(MP3_320K).mp3")
+            src: "music/Davido - FEEL (Official Audio)(MP3_320K).mp3"
         },
         {
             title: "Nack",
             artist: "The Therapist",
-            src: "music/The_Therapist_-_Nack.mp3",
-            audio: new Audio("music/The_Therapist_-_Nack.mp3")
+            src: "music/The_Therapist_-_Nack.mp3"
         },
         {
             title: "Salamatu",
             artist: "Nuchie Meek",
-            src: "music/Nuchie-Meek-Salamatu-Originalhitz.com-.mp3",
-            audio: new Audio("music/Nuchie-Meek-Salamatu-Originalhitz.com-.mp3")
+            src: "music/Nuchie-Meek-Salamatu-Originalhitz.com-.mp3"
         },
         {
             title: "Unavailable",
             artist: "Davido",
-            src: "music/Davido - UNAVAILABLE (Official Video) ft. Musa Keys(MP3_320K).mp3",
-            audio: new Audio("music/Davido - UNAVAILABLE (Official Video) ft. Musa Keys(MP3_320K).mp3")
+            src: "music/Davido - UNAVAILABLE (Official Video) ft. Musa Keys(MP3_320K).mp3"
         }
     ];
 
     let currentSongIndex = 0;
     let isRepeating = false;
-    let audio = songs[currentSongIndex].audio;
-
+    const audio = new Audio();
     const playButton = document.getElementById("play");
     const progress = document.getElementById("progress");
     const volume = document.getElementById("volume");
@@ -59,14 +53,12 @@ window.onload = () => {
     }
 
     function nextSong() {
-        audio.pause();
         currentSongIndex = (currentSongIndex + 1) % songs.length;
         loadSong(currentSongIndex);
         audio.play();
     }
 
     function prevSong() {
-        audio.pause();
         currentSongIndex = (currentSongIndex - 1 + songs.length) % songs.length;
         loadSong(currentSongIndex);
         audio.play();
@@ -84,14 +76,16 @@ window.onload = () => {
     }
 
     function loadSong(index) {
-        audio = songs[index].audio;
+        audio.src = songs[index].src;
         document.getElementById("song-title").textContent = songs[index].title;
         document.getElementById("artist").textContent = songs[index].artist;
         playButton.textContent = '►';
-        audio.addEventListener('loadeddata', () => {
-            duration.textContent = formatTime(audio.duration);
-        });
         audio.load();
+        audio.addEventListener('loadedmetadata', () => {
+            duration.textContent = formatTime(audio.duration);
+            currentTime.textContent = "00:00";
+            progress.value = 0;
+        });
     }
 
     function seekTo() {
@@ -101,17 +95,6 @@ window.onload = () => {
     function setVolume() {
         audio.volume = volume.value / 100;
     }
-
-    // Initialize with the first song's metadata
-    loadSong(currentSongIndex);
-
-    // Set initial time and duration to 00:00
-    currentTime.textContent = "00:00";
-    duration.textContent = "00:00";
-
-    audio.addEventListener('loadeddata', () => {
-        duration.textContent = formatTime(audio.duration);
-    });
 
     audio.addEventListener('timeupdate', () => {
         progress.value = (audio.currentTime / audio.duration) * 100;
@@ -126,4 +109,7 @@ window.onload = () => {
     document.getElementById("repeat").addEventListener('click', repeatSong);
     progress.addEventListener('input', seekTo);
     volume.addEventListener('input', setVolume);
+
+    // Load the first song without playing it
+    loadSong(currentSongIndex);
 };
