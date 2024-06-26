@@ -42,17 +42,6 @@ window.onload = () => {
     const currentTime = document.getElementById("current-time");
     const duration = document.getElementById("duration");
 
-    audio.addEventListener('loadeddata', () => {
-        duration.textContent = formatTime(audio.duration);
-    });
-
-    audio.addEventListener('timeupdate', () => {
-        progress.value = (audio.currentTime / audio.duration) * 100;
-        currentTime.textContent = formatTime(audio.currentTime);
-    });
-
-    audio.addEventListener('ended', nextSong);
-
     function formatTime(time) {
         const minutes = Math.floor(time / 60);
         const seconds = Math.floor(time % 60);
@@ -98,7 +87,10 @@ window.onload = () => {
         audio = songs[index].audio;
         document.getElementById("song-title").textContent = songs[index].title;
         document.getElementById("artist").textContent = songs[index].artist;
-        playButton.textContent = '❚❚';
+        playButton.textContent = '►';
+        audio.addEventListener('loadeddata', () => {
+            duration.textContent = formatTime(audio.duration);
+        });
         audio.load();
     }
 
@@ -110,7 +102,23 @@ window.onload = () => {
         audio.volume = volume.value / 100;
     }
 
+    // Initialize with the first song's metadata
     loadSong(currentSongIndex);
+
+    // Set initial time and duration to 00:00
+    currentTime.textContent = "00:00";
+    duration.textContent = "00:00";
+
+    audio.addEventListener('loadeddata', () => {
+        duration.textContent = formatTime(audio.duration);
+    });
+
+    audio.addEventListener('timeupdate', () => {
+        progress.value = (audio.currentTime / audio.duration) * 100;
+        currentTime.textContent = formatTime(audio.currentTime);
+    });
+
+    audio.addEventListener('ended', nextSong);
 
     playButton.addEventListener('click', playPauseSong);
     document.getElementById("next").addEventListener('click', nextSong);
